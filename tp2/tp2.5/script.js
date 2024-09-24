@@ -5,7 +5,6 @@ fetch("enregistrer_heure.php")
   })
   .catch((error) => console.error("Erreur :", error));
 
-// Fonction pour récupérer la différence de temps
 function getTimeDifference() {
   fetch("calculer_temps.php")
     .then((response) => response.text())
