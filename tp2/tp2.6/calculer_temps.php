@@ -1,24 +1,19 @@
 <?php
 session_start();
+if (isset($_SESSION['server_time'])) {
+    $current_time = time();
+    $server_time = $_SESSION['server_time'];
+    $difference = $current_time - $server_time;
 
-if (isset($_SESSION['heure_debut'])) {
-    $heure_debut = $_SESSION['heure_debut'];
-    $heure_actuelle = time();
-    $temps_ecoule = $heure_actuelle - $heure_debut;
+    $formatted_time = date('H:i:s ', $server_time);
 
-    $heure_formattee = date('h:i:s A');
+    $response = array(
+        "heure" => $formatted_time,
+        "chrono" => $difference
+    );
 
-    $response = [
-        "heure" => $heure_formattee,
-        "chrono" => $temps_ecoule
-    ];
-
+    header('Content-Type: application/json');
     echo json_encode($response);
 } else {
-    $response = [
-        "heure" => "N/A",
-        "chrono" => 0
-    ];
-
-    echo json_encode($response);
+    echo json_encode(array("heure" => "N/A", "chrono" => 0));
 }

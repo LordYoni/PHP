@@ -12,10 +12,10 @@ function getTimeDifference() {
     .then((difference) => {
       const seconds = parseInt(difference, 10);
       const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
+      const remain = seconds % 60;
       document.getElementById(
         "perio"
-      ).innerText = `Différence avec l'heure du serveur : ${minutes} minutes et ${remainingSeconds} secondes`;
+      ).innerText = `Différence avec l'heure du serveur : ${minutes} minutes et ${remain} secondes`;
     })
     .catch((error) => console.error("Erreur :", error));
 }
