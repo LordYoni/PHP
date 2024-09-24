@@ -1,36 +1,24 @@
-let minuterie = null;
-let heureServeurDebut = null;
+fetch("enregistrer_heure.php")
+  .then((response) => {
+    if (!response.ok)
+      throw new Error("Erreur lors de la configuration de l'heure du serveur.");
+  })
+  .catch((error) => console.error("Erreur :", error));
 
-function start() {
-  if (minuterie !== null) {
-    clearInterval(minuterie);
-  }
-  document.getElementById("indicateur").innerHTML = "<b>M</b>";
-
-  fetch("enregistrer_heure.php")
-    .then((response) => response.text())
-    .then(() => {
-      heureServeurDebut = Math.floor(Date.now() / 1000);
-      minuterie = setInterval(afficherTemps, 1000);
-    });
-}
-
-function stop() {
-  if (minuterie !== null) {
-    document.getElementById("indicateur").innerHTML = "<b>A</b>";
-    clearInterval(minuterie);
-    minuterie = null;
-    document.getElementById("perio").innerText = "";
-  }
-}
-
-function afficherTemps() {
+// Fonction pour récupérer la différence de temps
+function getTimeDifference() {
   fetch("calculer_temps.php")
     .then((response) => response.text())
-    .then((temps) => {
-      document.getElementById("perio").innerText = temps;
-    });
+    .then((difference) => {
+      const seconds = parseInt(difference, 10);
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      document.getElementById(
+        "perio"
+      ).innerText = `Différence avec l'heure du serveur : ${minutes} minutes et ${remainingSeconds} secondes`;
+    })
+    .catch((error) => console.error("Erreur :", error));
 }
 
-document.getElementById("startBtn").addEventListener("click", start);
-document.getElementById("stopBtn").addEventListener("click", stop);
+setInterval(getTimeDifference, 1000);
+getTimeDifference();

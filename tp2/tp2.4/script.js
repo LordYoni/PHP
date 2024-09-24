@@ -1,47 +1,19 @@
-let minuterie = null;
-let heureDebut = null;
-let heureServeurDebut = null;
+function GetServerTime() {
+  fetch("heure.php")
+    .then((response) => response.text())
+    .then((timestamp) => {
+      const serverTime = new Date(parseInt(timestamp, 10) * 1000);
+      const serverTimeString = serverTime.toLocaleTimeString();
+      const pcTime = new Date();
+      const pcTimeString = pcTime.toLocaleTimeString();
 
-function start() {
-  if (minuterie !== null) {
-    clearInterval(minuterie);
-  }
-  document.getElementById("indicateur").innerHTML = "<b>M</b>";
-  
-  fetch('heure.php')
-    .then(response => response.text())
-    .then(timestamp => {
-      heureServeurDebut = parseInt(timestamp, 10);
-      heureDebut = Math.floor(Date.now() / 1000); 
-      minuterie = setInterval(afficherTemps, 1000);
-    });
+      document.getElementById("server-time").innerText =
+        "Heure du serveur : " + serverTimeString;
+      document.getElementById("server-time2").innerText =
+        "Heure de l'ordi : " + pcTimeString;
+    })
+    .catch((error) => console.error("Erreur :", error));
 }
 
-function stop() {
-  if (minuterie !== null) {
-    document.getElementById("indicateur").innerHTML = "<b>A</b>";
-    clearInterval(minuterie);
-    minuterie = null;
-    document.getElementById("perio").innerText = "";
-  }
-}
-
-function afficherTemps() {
-  fetch('heure.php')
-    .then(response => response.text())
-    .then(timestamp => {
-      const heureServeurActuelle = parseInt(timestamp, 10);
-      const tempsEcouleEnSecondes = heureServeurActuelle - heureServeurDebut;
-
-      const secondes = Math.floor(tempsEcouleEnSecondes % 60);
-      const minutes = Math.floor((tempsEcouleEnSecondes / 60) % 60);
-      const heures = Math.floor(tempsEcouleEnSecondes / 3600);
-
-      const formate = `${heures.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondes.toString().padStart(2, '0')}`;
-
-      document.getElementById("perio").innerText = formate;
-    });
-}
-
-document.getElementById("startBtn").addEventListener("click", start);
-document.getElementById("stopBtn").addEventListener("click", stop);
+setInterval(GetServerTime, 1000);
+GetServerTime();
