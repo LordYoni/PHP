@@ -5,7 +5,7 @@ if (isset($_SESSION['server_time'])) {
     $server_time = $_SESSION['server_time'];
     $difference = $current_time - $server_time;
 
-    $formatted_time = date('H:i:s ', $server_time);
+    $formatted_time = date('H:i:s', $server_time);
 
     $response = array(
         "heure" => $formatted_time,
