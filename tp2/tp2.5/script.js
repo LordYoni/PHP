@@ -14,7 +14,7 @@ function getTimeDifference() {
       const remain = seconds % 60;
       document.getElementById(
         "perio"
-      ).innerText = `Différence avec l'heure du serveur : ${minutes} minutes et ${remain} secondes`;
+      ).innerText = `Différence avec l'heure de session : ${minutes} minutes et ${remain} secondes`;
     })
     .catch((error) => console.error("Erreur :", error));
 }
