@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="author" content="Taine Yoni" />
+    <title>Upload de Fichier</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Upload de Fichier</h3>
+      <hr />
+      <form action="upload.php" method="post" enctype="multipart/form-data">
+        <label for="fileUpload">Choisissez un fichier :</label>
+        <input type="file" name="fichier" id="fileUpload" />
+        <br /><br />
+        <input type="submit" value="Uploader" />
+      </form>
+
+      <div id="uploadResult"></div>
+    </div>
+  </body>
+</html>
